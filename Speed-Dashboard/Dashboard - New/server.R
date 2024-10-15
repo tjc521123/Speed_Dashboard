@@ -72,7 +72,7 @@ function(input, output, session) {
     value_box(
       title       = 'Improvement',
       value       = sprintf('%.2f', 
-                            max(data$curr$Sprint[data$curr$Athlete == input$athlete_select]) - min(data$curr$Sprint[data$curr$Athlete == input$athlete_select])),
+                            head(data$curr$Sprint[data$curr$Athlete == input$athlete_select], 1) - min(data$curr$Sprint[data$curr$Athlete == input$athlete_select])),
       showcase    = bs_icon('graph-up'),
       full_screen = TRUE,
       theme       = 'success'
