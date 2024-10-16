@@ -14,25 +14,27 @@ pacman::p_load(shiny,
 page_sidebar(
   title = 'Speed Dashboard',
   window_title = 'Speed Dashboard',
+  theme = bs_theme(preset = 'spacelab'),
 
   sidebar = sidebar(
     width = '500px',
-    bg    = 'grey',
+
     card(
-      bg = 'red',
       fileInput(
         inputId = 'speed_file',
-        label   = 'Select Speed File',
-        accept  = c('.xlsx'),
-        width   = '300px'
+        label   = 'File',
+        accept  = c('.xlsx')
       ),
-  
-      card(
-        selectInput(
-          inputId = 'athlete_select',
-          label   = 'Select Athlete',
-          choices = ''
-        )
+      fileInput(
+        inputId = 'test_file',
+        label   = 'Test File',
+        accept  = c('.xlsx')
+      ),
+      
+      selectInput(
+        inputId = 'athlete_select',
+        label   = 'Select Athlete',
+        choices = ''
       ),
   
       card(
@@ -43,33 +45,45 @@ page_sidebar(
           max     = Sys.Date()
         ),
         textInput(
-          inputId = 'athlete_new',
+          inputId = 'athlete',
           label   = 'Athlete Name'
         ),
-        numericInput(
-          inputId = 'run',
-          label   = 'Run',
-          value   = 1,
-          min     = 1
+        
+        layout_columns(
+          numericInput(
+            inputId = 'run',
+            label   = 'Run',
+            value   = 1,
+            min     = 1
+          ),
+          numericInput(
+            inputId = 'split',
+            label   = '10-Yd Split',
+            value   = 0,
+            min     = 0
+          ),
+          numericInput(
+            inputId = 'sprint',
+            label   = '20-Yd Sprint',
+            value   = 0,
+            min     = 0
+          )
         ),
-        numericInput(
-          inputId = 'split',
-          label   = '10-Yd Split',
-          value   = 0,
-          min     = 0
+        layout_columns(
+          actionButton(
+            inputId = 'add_data',
+            label   = 'Add Data'
+          ),
+          downloadButton(
+            outputId = 'download'
+          )
         ),
-        numericInput(
-          inputId = 'sprint',
-          label   = '20-Yd Sprint',
-          value   = 0,
-          min     = 0
-        )
       )
     )
   ),
 
   layout_columns(
-    row_heights = '75px',
+    row_heights = '150px',
     uiOutput('showcase_1'),
     uiOutput('showcase_2'),
     uiOutput('showcase_3')
