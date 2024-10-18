@@ -1,9 +1,9 @@
 {
     "id": "854E725B",
-    "path": "C:/Users/Caitie Mayo/Desktop/Speed-Dashboard/Dashboard/dashboard/ui.R",
+    "path": "C:/Users/Caitie Mayo/Desktop/Speed_Dashboard/Speed-Dashboard/Dashboard/dashboard/ui.R",
     "project_path": "dashboard/ui.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "1758974154",
     "contents": "",
     "dirty": false,
     "created": 1728493916646.0,
@@ -13,7 +13,7 @@
         "source_window_id": "",
         "Source": "Source",
         "cursorPosition": "43,40",
-        "scrollLine": "25"
+        "scrollLine": "0"
     },
     "folds": "",
     "lastKnownWriteTime": 1728497670,

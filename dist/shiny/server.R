@@ -1,13 +1,13 @@
 library(pacman)
-pacman::p_load(shiny,
+pacman::p_load(plyr,
+	       shiny,
                tidyverse,
                ggplot2,
                readxl,
                writexl,
                plotly,
                DT,
-               tools,
-               rmarkdown)
+               tools)
 
 min_agg <- function(x) {
   if (class(x) != "factor") {
@@ -19,7 +19,10 @@ min_agg <- function(x) {
 
 function(input, output, session) {
   data <- reactiveValues(curr = NULL, orig = NULL)
-  
+
+  session$onSessionEnded(function() {
+     stopApp()
+  })
   #-----------------------------------------------------------------------------
   # Read data from the selected files
   #-----------------------------------------------------------------------------
@@ -32,6 +35,7 @@ function(input, output, session) {
         mutate(Date   = as.Date(Date)) %>%
         as.data.frame()
 
+      print(data$orig)
       data$curr <- data$orig
     }
   )
