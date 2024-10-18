@@ -14,6 +14,6 @@ Double-click on the `run.bat` file. This should open the file.
 The application needs Google Chrome installed in its default location to operate. 
 If you want to change the browser application/location, you must edit the `runShinyApp.R`
 file with:
-	chrome.sys = "new/application/location.exe"
+	`chrome.sys = "new/application/location.exe"`
 
 The new application location **MUST** be double-quoted "".
