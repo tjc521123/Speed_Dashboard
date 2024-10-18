@@ -1,8 +1,0 @@
-library paths:
-... C:/Users/Caitie Mayo/Desktop/Speed_Dashboard/dist/R-Portable/App/R-Portable/library
-Loading required package: shiny
-
-Listening on http://127.0.0.1:3451
-Browser path: C:/Program Files/Google/Chrome/Application/chrome.exe
-Opening in existing browser session.
-Warning: package 'pacman' was built under R version 4.2.3
