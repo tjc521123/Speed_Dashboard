@@ -1,6 +1,5 @@
 library(pacman)
-pacman::p_load(plyr,
-	       shiny,
+pacman::p_load(shiny,
                tidyverse,
                ggplot2,
                readxl,
@@ -34,8 +33,7 @@ function(input, output, session) {
       data$orig <- read_excel(path = as.character(input$speed_file$datapath)) %>%
         mutate(Date   = as.Date(Date)) %>%
         as.data.frame()
-
-      print(data$orig)
+      
       data$curr <- data$orig
     }
   )
@@ -97,7 +95,7 @@ function(input, output, session) {
     input$add_data,
     {
       req(input$speed_file)
-
+      
       tmp <- data.frame(
         Date    = as.Date(input$date),
         Athlete = input$athlete,
@@ -131,7 +129,7 @@ function(input, output, session) {
   #-----------------------------------------------------------------------------
   # Create showcase boxes
   #-----------------------------------------------------------------------------
-
+  
   output$showcase_1 <- renderUI({
     req(input$speed_file)
     

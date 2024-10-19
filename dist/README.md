@@ -5,6 +5,11 @@ You must download and install `R Portable` from:
 
 The location of the installation should be the `dist` folder. 
 
+After installing, launch R Portable and install `shiny` and `pacman`.
+* Run the following commands to install the packages:
+	* `install.packages('shiny')`
+	* `install.packages('pacman')`
+
 # Running the Application
 
 Double-click on the `run.bat` file. This should open the file. 
