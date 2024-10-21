@@ -1,8 +1,38 @@
 library paths:
-... C:/Users/Caitie Mayo/Desktop/Speed_Dashboard/dist/R-Portable/App/R-Portable/library
+... C:/Users/tjc52/GitHub/Speed_Dashboard/dist/R-Portable/App/R-Portable/library
 Loading required package: shiny
 
-Listening on http://127.0.0.1:3451
+Listening on http://127.0.0.1:5064
 Browser path: C:/Program Files/Google/Chrome/Application/chrome.exe
 Opening in existing browser session.
 Warning: package 'pacman' was built under R version 4.2.3
+Warning in min(x, na.rm = TRUE) :
+  no non-missing arguments to min; returning Inf
+Warning: Error in order: argument 1 is not a vector
+  106: layout
+  105: %||%
+  102: modify_list
+  101: config
+  100: addHook
+   99: htmlwidgets::onRender
+   97: renderUI [C:\Users\tjc52\GitHub\Speed_Dashboard\dist\shiny/server.R#144]
+   96: func
+   83: renderFunc
+   82: output$showcase_1
+    1: shiny::runApp
+Warning in min(x, na.rm = TRUE) :
+  no non-missing arguments to min; returning Inf
+Warning: Error in order: argument 1 is not a vector
+  106: layout
+  105: %||%
+  102: modify_list
+  101: config
+  100: addHook
+   99: htmlwidgets::onRender
+   97: renderUI [C:\Users\tjc52\GitHub\Speed_Dashboard\dist\shiny/server.R#184]
+   96: func
+   83: renderFunc
+   82: output$showcase_2
+    1: shiny::runApp
+Warning in min(data$curr$Sprint[data$curr$Athlete == input$athlete_select]) :
+  no non-missing arguments to min; returning Inf
