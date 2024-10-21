@@ -10,6 +10,9 @@ pacman::p_load(shiny,
                rmarkdown)
 
 min_agg <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
   if (class(x) != "factor") {
     min(x, na.rm = TRUE)
   } else {
@@ -85,6 +88,10 @@ function(input, output, session) {
       )
     }
   )
+  
+  output$athlete_name <- renderText({
+    input$athlete_select
+  })
   
   #-----------------------------------------------------------------------------
   # Add Data
@@ -209,14 +216,59 @@ function(input, output, session) {
   
   output$showcase_3 <- renderUI({
     req(input$speed_file)
+    print(data$curr)
+    lollipop_data <- data$curr[data$curr$Athlete == input$athlete_select, ] %>%
+      select(-c(Date, Athlete, Run)) %>%
+      mutate(
+        Split_start = head(Split, 1),
+        Split_end   = min(Split, na.rm = FALSE),
+        Sprint_start = head(Sprint, 1),
+        Sprint_end   = min(Sprint, na.rm = FALSE)
+      ) %>%
+      select(-c(Split, Sprint))
+    
+    plot_df <- data.frame(
+      Split  = c(lollipop_data$Split_start[1], lollipop_data$Split_end[1]),
+      Sprint = c(lollipop_data$Sprint_start[1], lollipop_data$Sprint_end[1])
+    )
+    
+    plot <- plot_df %>%
+      t() %>%
+      as.data.frame %>%
+      add_rownames() %>%
+      ggplot(mapping = aes(x = rowname, y = V1)) +
+      geom_segment(aes(x = rowname, xend = rowname, y = V2, yend = V1), color = 'grey') +
+      geom_point(size = 5, color = 'grey') +
+      geom_point(aes(y = V2), size = 3, color = 'green') +
+      ylim(0, NA) +
+      coord_flip() 
+    
+    plot <- ggplotly(plot) %>%
+      layout(
+        xaxis = list(visible = F, showgrid = F, title = ""),
+        yaxis = list(visible = F, showgrid = F, title = ""),
+        hovermode = "x",
+        margin = list(t = 0, r = 0, l = 0, b = 0),
+        font = list(color = "white"),
+        paper_bgcolor = "transparent",
+        plot_bgcolor = "transparent"
+      ) %>%
+      config(displayModeBar = F) %>%
+      htmlwidgets::onRender(
+        "function(el) {
+              el.closest('.bslib-value-box')
+                .addEventListener('bslib.card', function(ev) {
+                  Plotly.relayout(el, {'xaxis.visible': ev.detail.fullScreen});
+                })
+            }"
+      )
     
     value_box(
       title       = 'Improvement',
-      value       = sprintf('%.2f', 
-                            head(data$curr$Sprint[data$curr$Athlete == input$athlete_select], 1) - min(data$curr$Sprint[data$curr$Athlete == input$athlete_select])),
-      showcase    = bs_icon('graph-up'),
-      full_screen = TRUE,
-      theme       = 'success'
+      value       = "",
+      showcase    = plot,
+      full_screen = TRUE
+      # theme       = 'success'
     )
   })
   

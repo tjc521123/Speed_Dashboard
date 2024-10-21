@@ -81,9 +81,11 @@ page_sidebar(
       )
     )
   ),
+  
+  textOutput(outputId = 'athlete_name'),
 
   layout_columns(
-    row_heights = '150px',
+    row_heights = '75px',
     uiOutput('showcase_1'),
     uiOutput('showcase_2'),
     uiOutput('showcase_3')
