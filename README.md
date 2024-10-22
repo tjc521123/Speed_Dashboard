@@ -13,7 +13,7 @@ athlete's best times and improvements.
 
 ## Standalone Desktop Application
 
-To run the application as a standalone application, download the `dist` directory.
+To run the application as a standalone application, download the repository using "Code" button.
 
 Inside the `dist` directory, install the `R Portable` tool from 
 `https://sourceforge.net/projects/rportable/`
