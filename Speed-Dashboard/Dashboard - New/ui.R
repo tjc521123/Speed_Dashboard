@@ -3,6 +3,7 @@ pacman::p_load(shiny,
                bslib,
                bsicons,
                tidyverse,
+               zoo,
                ggplot2,
                readxl,
                writexl,
@@ -89,6 +90,13 @@ page_sidebar(
     uiOutput('showcase_1'),
     uiOutput('showcase_2'),
     uiOutput('showcase_3')
+  ),
+  
+  layout_columns(
+    row_heights = '75px',
+    uiOutput('showcase_4'),
+    uiOutput('showcase_5'),
+    uiOutput('showcase_6')
   ),
 
   card(

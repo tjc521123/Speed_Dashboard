@@ -1,6 +1,7 @@
 library(pacman)
 pacman::p_load(shiny,
                tidyverse,
+               zoo,
                ggplot2,
                readxl,
                writexl,
@@ -15,6 +16,17 @@ min_agg <- function(x) {
   }
   if (class(x) != "factor") {
     min(x, na.rm = TRUE)
+  } else {
+    return(NULL)
+  }
+}
+
+mean_agg <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
+  if (class(x) != 'factor') {
+    mean(x, na.rm = TRUE)
   } else {
     return(NULL)
   }
@@ -138,17 +150,34 @@ function(input, output, session) {
   output$showcase_1 <- renderUI({
     req(input$speed_file)
     
+    improvement <- min(data$curr$Sprint[data$curr$Athlete == input$athlete_select], na.rm = TRUE) - head(data$curr$Sprint[data$curr$Athlete == input$athlete_select], 1)
+    improvement <- sprintf('%.2f', improvement)
+    
+    value_box(
+      title       = 'Improvement',
+      value       = improvement,
+      showcase    = bs_icon('graph-up'),
+      #full_screen = TRUE,
+      theme       = 'success'
+    )
+  }) 
+  
+  output$showcase_2 <- renderUI({
+    req(input$speed_file)
+    
     plot <- data$curr[data$curr$Athlete == input$athlete_select, ] %>%
       group_by(Date) %>%
       mutate(Split = min_agg(Split)) %>%
       ggplot(mapping = aes(x = Date, y = Split)) +
-      geom_point() +
-      geom_line()
+      geom_point(color = 'white') +
+      geom_line(color = 'white') +
+      geom_area(fill = 'grey', alpha = 0.5)
     
     plot <- ggplotly(plot) %>%
       layout( 
         xaxis = list(visible = F, showgrid = F, title = ""),
         yaxis = list(visible = F, showgrid = F, title = ""),
+        hoverinfo = 'x+y',
         hovermode = "x",
         margin = list(t = 0, r = 0, l = 0, b = 0),
         font = list(color = "white"),
@@ -175,20 +204,22 @@ function(input, output, session) {
     )
   })
   
-  output$showcase_2 <- renderUI({
+  output$showcase_3 <- renderUI({
     req(input$speed_file)
     
     plot <- data$curr[data$curr$Athlete == input$athlete_select, ] %>%
       group_by(Date) %>%
       mutate(Sprint = min_agg(Sprint)) %>%
       ggplot(mapping = aes(x = Date, y = Sprint)) +
-      geom_point() +
-      geom_line()
+      geom_point(color = 'white') +
+      geom_line(color = 'white') +
+      geom_area(fill = 'grey', alpha = 0.5)
     
     plot <- ggplotly(plot) %>%
       layout(
         xaxis = list(visible = F, showgrid = F, title = ""),
         yaxis = list(visible = F, showgrid = F, title = ""),
+        hoverinfo = 'x+y',
         hovermode = "x",
         margin = list(t = 0, r = 0, l = 0, b = 0),
         font = list(color = "white"),
@@ -214,66 +245,103 @@ function(input, output, session) {
     )
   })
   
-  output$showcase_3 <- renderUI({
+  output$showcase_4 <- renderUI({
     req(input$speed_file)
-    # print(data$curr)
-    # lollipop_data <- data$curr[data$curr$Athlete == input$athlete_select, ] %>%
-    #   select(-c(Date, Athlete, Run)) %>%
-    #   mutate(
-    #     Split_start = head(Split, 1),
-    #     Split_end   = min(Split, na.rm = FALSE),
-    #     Sprint_start = head(Sprint, 1),
-    #     Sprint_end   = min(Sprint, na.rm = FALSE)
-    #   ) %>%
-    #   select(-c(Split, Sprint))
-    # 
-    # plot_df <- data.frame(
-    #   Split  = c(lollipop_data$Split_start[1], lollipop_data$Split_end[1]),
-    #   Sprint = c(lollipop_data$Sprint_start[1], lollipop_data$Sprint_end[1])
-    # )
-    # 
-    # plot <- plot_df %>%
-    #   t() %>%
-    #   as.data.frame %>%
-    #   add_rownames() %>%
-    #   ggplot(mapping = aes(x = rowname, y = V1)) +
-    #   geom_segment(aes(x = rowname, xend = rowname, y = V2, yend = V1), color = 'grey') +
-    #   geom_point(size = 5, color = 'grey') +
-    #   geom_point(aes(y = V2), size = 3, color = 'green') +
-    #   ylim(0, NA) +
-    #   coord_flip() 
-    # 
-    # plot <- ggplotly(plot) %>%
-    #   layout(
-    #     xaxis = list(visible = F, showgrid = F, title = ""),
-    #     yaxis = list(visible = F, showgrid = F, title = ""),
-    #     hovermode = "x",
-    #     margin = list(t = 0, r = 0, l = 0, b = 0),
-    #     font = list(color = "white"),
-    #     paper_bgcolor = "transparent",
-    #     plot_bgcolor = "transparent"
-    #   ) %>%
-    #   config(displayModeBar = F) %>%
-    #   htmlwidgets::onRender(
-    #     "function(el) {
-    #           el.closest('.bslib-value-box')
-    #             .addEventListener('bslib.card', function(ev) {
-    #               Plotly.relayout(el, {'xaxis.visible': ev.detail.fullScreen});
-    #             })
-    #         }"
-    #   )
     
-    improvement <- min(data$curr$Sprint[data$curr$Athlete == input$athlete_select], na.rm = TRUE) - head(data$curr$Sprint[data$curr$Athlete == input$athlete_select], 1)
-    improvement <- sprintf('%.2f', improvement)
+    # improvement <- min(data$curr$Sprint[data$curr$Athlete == input$athlete_select], na.rm = TRUE) - head(data$curr$Sprint[data$curr$Athlete == input$athlete_select], 1)
+    # improvement <- sprintf('%.2f', improvement)
     
     value_box(
-      title       = 'Improvement',
-      value       = improvement,
+      title       = '',
+      value       = 'Group Stats',
       showcase    = bs_icon('graph-up'),
       #full_screen = TRUE,
       theme       = 'success'
     )
   })
+  
+  output$showcase_5 <- renderUI({
+    req(input$speed_file)
+    
+    plot <- data$curr %>%
+      group_by(Date) %>%
+      mutate(Split = mean_agg(Split)) %>%
+      ggplot(mapping = aes(x = Date, y = Split)) +
+      # geom_point() +
+      geom_line(color = 'white') +
+      geom_area(fill = 'grey', alpha = 0.5)
+    
+    plot <- ggplotly(plot) %>%
+      layout( 
+        xaxis = list(visible = F, showgrid = F, title = ""),
+        yaxis = list(visible = F, showgrid = F, title = ""),
+        hoverinfo = 'x+y',
+        hovermode = "x",
+        margin = list(t = 0, r = 0, l = 0, b = 0),
+        font = list(color = "white"),
+        paper_bgcolor = "transparent",
+        plot_bgcolor = "transparent"
+      ) %>%
+      config(displayModeBar = F) %>%
+      htmlwidgets::onRender(
+        "function(el) {
+              el.closest('.bslib-value-box')
+                .addEventListener('bslib.card', function(ev) {
+                  Plotly.relayout(el, {'xaxis.visible': ev.detail.fullScreen});
+                })
+            }"
+      )
+    
+    value_box(
+      title       = 'Avg. Split',
+      value       = sprintf('%.2f', mean(data$curr$Split, na.rm = TRUE)),
+      showcase    = plot,
+      full_screen = TRUE,
+      theme       = 'success'
+    )
+  })
+  
+  output$showcase_6 <- renderUI({
+    req(input$speed_file)
+    
+    plot <- data$curr %>%
+      group_by(Date) %>%
+      mutate(Sprint = mean_agg(Sprint)) %>%
+      ggplot(mapping = aes(x = Date, y = Sprint)) +
+      # geom_point() +
+      geom_line(color = 'white') +
+      geom_area(fill = 'grey', alpha = 0.5)
+    
+    plot <- ggplotly(plot) %>%
+      layout(
+        xaxis = list(visible = F, showgrid = F, title = ""),
+        yaxis = list(visible = F, showgrid = F, title = ""),
+        hoverinfo = 'x+y',
+        hovermode = "closest",
+        margin = list(t = 0, r = 0, l = 0, b = 0),
+        font = list(color = "white"),
+        paper_bgcolor = "transparent",
+        plot_bgcolor = "transparent"
+      ) %>%
+      config(displayModeBar = F) %>%
+      htmlwidgets::onRender(
+        "function(el) {
+              el.closest('.bslib-value-box')
+                .addEventListener('bslib.card', function(ev) {
+                  Plotly.relayout(el, {'xaxis.visible': ev.detail.fullScreen});
+                })
+            }"
+      )
+    value_box(
+      title       = 'Avg. Sprint',
+      value       = sprintf('%.2f', mean(data$curr$Sprint, na.rm = TRUE)),
+      showcase    = plot,
+      full_screen = TRUE,
+      theme       = 'success'
+    )
+  })
+  
+
   
   #-----------------------------------------------------------------------------
   # Create data table
