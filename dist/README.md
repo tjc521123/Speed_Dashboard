@@ -1,5 +1,7 @@
 # Initial Set-Up
 
+First, download the `dist` folder.
+
 You must download and install `R Portable` from:
 	https://sourceforge.net/projects/rportable/
 
