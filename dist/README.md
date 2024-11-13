@@ -28,3 +28,7 @@ file with:
 	`chrome.sys = "new/application/location.exe"`
 
 The new application location **MUST** be double-quoted "".
+
+# `Speed_Template.xlsx`
+
+The included `Speed_Template.xlsx` is a demo spreadsheet that has some sample data to showcase the features of the dashboard. Additionally, it is in the correct format for the dashboard to use, so when you go to log your own speed data, you can use the template.
