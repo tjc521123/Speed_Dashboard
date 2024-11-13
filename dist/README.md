@@ -3,6 +3,8 @@
 First, download the zip file of the `Speed_Dashboard` repository.
 Extract the zip to the desired location. The main folder of interest is the `dist` folder.
 
+Throughout this process, be mindful of whether you have hidden file extensions. This is the default setting on most computers, so if you do not see `.exe` or `.bat`, it is because the extension is hidden.
+
 You must download and install `R Portable` from:
 	https://sourceforge.net/projects/rportable/
 
