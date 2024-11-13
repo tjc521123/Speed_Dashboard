@@ -12,6 +12,7 @@ After installing, launch R Portable by running the `R-Portable.exe` file in the 
 * Run the following commands in the `R-Portable` console to install the packages:
 	* `install.packages('shiny')`
 	* `install.packages('pacman')`
+ * This may take a few minutes.
 
 # Running the Application
 
