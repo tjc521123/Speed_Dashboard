@@ -1,14 +1,15 @@
 # Initial Set-Up
 
-First, download the `dist` folder.
+First, download the zip file of the `Speed_Dashboard` repository.
+Extract the zip to the desired location. The main folder of interest is the `dist` folder.
 
 You must download and install `R Portable` from:
 	https://sourceforge.net/projects/rportable/
 
 The location of the installation should be the `dist` folder. 
 
-After installing, launch R Portable and install `shiny` and `pacman`.
-* Run the following commands to install the packages:
+After installing, launch R Portable by running the `R-Portable.exe` file in the `R-Portable` folder. Once it is open, install `shiny` and `pacman`.
+* Run the following commands in the `R-Portable` console to install the packages:
 	* `install.packages('shiny')`
 	* `install.packages('pacman')`
 
