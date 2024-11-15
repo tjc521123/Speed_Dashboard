@@ -1,0 +1,12 @@
+name: Speed_Dashboard
+title: Speed_Dashboard
+username: tjc521123
+account: tjc521123
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13342550
+bundleId: 9364506
+url: https://tjc521123.shinyapps.io/Speed_Dashboard/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

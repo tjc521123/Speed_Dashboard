@@ -56,7 +56,23 @@ function(input, output, session) {
     {
       file <- input$test_file
       req(input$test_file)
-      tmp <- read_excel(path = as.character(input$test_file$datapath)) %>%
+      
+      data$locations <- setdiff(excel_sheets(input$test_file$datapath), 
+                                c('DASHBOARD', 'NORMS', 'FORCE DECK DATA', 'ATHLETE INFO'))
+      
+      showModal(
+        modalDialog(
+          selectInput(inputId = "location", 
+                      label = "Location to Pull Data from", 
+                      choices = data$locations,
+                      selected = head(data$locations, 1)),
+          footer = modalButton("Close")
+        ))
+      
+      req(input$location)
+      
+      tmp <- read_excel(path = as.character(input$test_file$datapath),
+                        sheet = input$location) %>%
         mutate(Date   = as.Date(Date),
                Split  = as.numeric(SPLIT_10),
                Sprint = as.numeric(SPRINT_20)) %>%
@@ -65,6 +81,7 @@ function(input, output, session) {
       
       data$curr <- plyr::rbind.fill(data$curr, tmp) %>%
         arrange(Date)
+      
     }
   )
   
@@ -90,6 +107,21 @@ function(input, output, session) {
     input$test_file,
     {
       req(input$speed_file)
+      
+      tmp <- data$curr
+      choices <- sort(unique(data$curr$Athlete))
+      
+      updateSelectInput(
+        inputId = 'athlete_select',
+        choices = choices
+      )
+    }
+  )
+  
+  observeEvent(
+    input$add_data,
+    {
+      req(input$add_data)
       
       tmp <- data$curr
       choices <- sort(unique(data$curr$Athlete))
@@ -158,7 +190,6 @@ function(input, output, session) {
       title       = 'Improvement',
       value       = improvement,
       showcase    = bs_icon('graph-up'),
-      #full_screen = TRUE,
       theme       = 'success'
     )
   }) 
@@ -352,7 +383,7 @@ function(input, output, session) {
     req(input$speed_file)
     
     data$curr %>%
-      # select(Date, Athlete, Split, Sprint) %>%
+      arrange(desc(Date)) %>%
       datatable(
         rownames = FALSE,
         width      = "90%",

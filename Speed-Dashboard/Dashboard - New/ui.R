@@ -87,6 +87,7 @@ page_sidebar(
 
   layout_columns(
     row_heights = '75px',
+    min_height = '75px',
     uiOutput('showcase_1'),
     uiOutput('showcase_2'),
     uiOutput('showcase_3')
@@ -94,6 +95,7 @@ page_sidebar(
   
   layout_columns(
     row_heights = '75px',
+    min_height = '75px',
     uiOutput('showcase_4'),
     uiOutput('showcase_5'),
     uiOutput('showcase_6')
